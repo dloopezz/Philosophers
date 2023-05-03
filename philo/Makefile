@@ -3,12 +3,12 @@ NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 DEBUG = -g -fsanitize=address
+THREAD_DEBUG = -fsanitizer=thread -g
 
 LIB = philo.h
 #SRC_PATH = ./philo/
 
 SRC =	philo.c\
-
 #SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 OBJS = $(SRC:.c=.o)

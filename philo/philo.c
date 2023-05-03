@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 15:14:27 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/02 12:19:40 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/02 16:13:13 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,31 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void *write_msg(void *txt)
+// thread_routine is the function the thread invokes right after its
+// creation. The thread ends at the end of this function.
+void	*thread_routine(void *data)
 {
-	char *msg;
-	msg = (char *)txt;
-	while (1)
-	{
-		printf("%s\n", msg);
-		sleep(1);
-	}
+	printf("--Thread: Hello!\n");
+	return (data); // The thread ends here.
 }
 
-int main(void)
+int	main(void)
 {
-	pthread_t	process1;
-	pthread_t	process2;
+	pthread_t	tid1;	// First thread's ID
+	pthread_t	tid2;	// Second thread's ID
 
-	pthread_create(&process2, NULL, &write_msg, "21");
-	pthread_create(&process1, NULL, &write_msg, "42");
-	printf("aqui\n");
-	// pthread_join(process1, NULL);
-	// pthread_join(process2, NULL);
-	return 0;
+	// Creating the first thread that will go
+	// execute its thread_routine function.
+	pthread_create(&tid1, NULL, thread_routine, NULL);
+	printf("Main: Created first thread\n");
+	// Creating the second thread that will also execute thread_routine.
+	pthread_create(&tid2, NULL, thread_routine, NULL);
+	printf("Main: Created second thread\n");
+	// The main thread waits for the new threads to end
+	// with pthread_join.
+	pthread_join(tid1, NULL);
+	printf("Main: Joining first thread\n");
+	pthread_join(tid2, NULL);
+	printf("Main: Joining second thread\n");
+	return (0);
 }
