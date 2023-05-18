@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/18 13:22:43 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:07:06 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int main (int argc, char **argv)
 		printf("Time to eat: %llu\n", data.time_eat);
 		data.min_meals = ft_atoi_philo(argv[5]);
 		printf("Number of meals: %i\n", data.min_meals);
+		printf("%llu", get_time());
 	}
 	else
 		error_found("Error: invalid number of arguments");

@@ -6,11 +6,17 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/18 13:14:38 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/18 19:06:23 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	error_found(char *str)
+{
+	printf("%s\n", str);
+	exit (EXIT_FAILURE);
+}
 
 long long	ft_atoi_philo(const char *str)
 {
@@ -34,8 +40,13 @@ long long	ft_atoi_philo(const char *str)
 	return (nb);
 }
 
-int	error_found(char *str)
+uint64_t	get_time(void)
 {
-	printf("%s\n", str);
-	exit (EXIT_FAILURE);
+	struct timeval	cur_time;
+
+	//proteger gettimeofday
+	gettimeofday(&cur_time,  NULL);
+	
+	// printf("Time in sec: %ld\nTime in usec: %d\n", cur_time.tv_sec, cur_time.tv_usec);
+	return ((cur_time.tv_sec * (uint64_t)1000) + (cur_time.tv_usec / 1000));
 }
