@@ -9,6 +9,7 @@ LIB = philo.h
 #SRC_PATH = ./philo/
 
 SRC =	philo.c\
+		utils.c\
 #SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 OBJS = $(SRC:.c=.o)
@@ -16,9 +17,9 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "compiling philo..."
+	@echo "compiling Philosophers..."
 	@$(CC) $(CFLAGS) $(OBJS) -I $(LIB) -o $(NAME)
-	@echo "philo compiled!!"
+	@echo "Philosophers compiled!!"
 
 clean:
 	@echo "cleaning everything..."
