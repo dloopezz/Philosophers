@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/18 19:06:23 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:57:39 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,17 @@ uint64_t	get_time(void)
 	
 	// printf("Time in sec: %ld\nTime in usec: %d\n", cur_time.tv_sec, cur_time.tv_usec);
 	return ((cur_time.tv_sec * (uint64_t)1000) + (cur_time.tv_usec / 1000));
+}
+
+//es un usleep pero recibe milisegundos en vez de microsegundos
+int ft_usleep(unsigned int time)
+{
+	uint64_t	start;
+
+	start = get_time();
+	while ((get_time() - start) < time)
+		usleep(time / 10);
+	//dividir por 10 por buena praxis, no es bueno bloquear el programa tanto tiempo
+	//mejor hacer ese sleep de time en 10 iteraciones con menos tiempo de espera cada una
+	return (0);
 }

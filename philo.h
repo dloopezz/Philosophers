@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/18 18:58:35 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:01:08 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ typedef struct s_data
 long long	ft_atoi_philo(const char *str);
 int			error_found(char *str);
 uint64_t	get_time(void);
+int 		ft_usleep(unsigned int time);
 
 #endif
