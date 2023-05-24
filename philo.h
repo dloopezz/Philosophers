@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/19 17:01:08 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/24 17:39:33 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ typedef struct s_philo
 {
 	struct s_data	*data;
 	// pthread_t       t1;
-	// int             id;
+	int             philo_id;
 	int             eat_cont;
 	int             status;
 	int             is_eating;
 	uint64_t        time_to_die;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	*l_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*left_fork;
 } 				t_philo;
 
 typedef struct s_data
@@ -45,14 +45,20 @@ typedef struct s_data
 	u_int64_t       time_eat;
 	u_int64_t       time_sleep;
 	u_int64_t       thread_start;
-	pthread_mutex_t *both_forks;
+	pthread_mutex_t *forks;
 	pthread_mutex_t lock;
 } 				t_data;
 
-//Functions:
+//Utils
 long long	ft_atoi_philo(const char *str);
 int			error_found(char *str);
 uint64_t	get_time(void);
 int 		ft_usleep(unsigned int time);
+
+//Initialization
+void	alloc_memory(t_data *data);
+void	data_init(t_data *data, int argc, char **argv);
+void	philo_init(t_data *data);
+void	create_forks(t_data  *data);
 
 #endif

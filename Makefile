@@ -10,6 +10,7 @@ LIB = philo.h
 
 SRC =	philo.c\
 		utils.c\
+		start.c\
 #SRCS = $(addprefix $(SRC_PATH), $(SRC))
 
 OBJS = $(SRC:.c=.o)
