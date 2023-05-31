@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/19 16:57:39 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:56:27 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int ft_usleep(unsigned int time)
 
 	start = get_time();
 	while ((get_time() - start) < time)
-		usleep(time / 10);
+		usleep(time / 10); 
 	//dividir por 10 por buena praxis, no es bueno bloquear el programa tanto tiempo
 	//mejor hacer ese sleep de time en 10 iteraciones con menos tiempo de espera cada una
 	return (0);

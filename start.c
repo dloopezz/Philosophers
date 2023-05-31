@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/24 17:55:13 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/31 12:48:14 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	alloc_memory(t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
 	if (!data->philos)
 		error_found("malloc error");
-	//alloc forks
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
+	if (!data->forks)
+		error_found("malloc error");
 }
 
 void	data_init(t_data *data, int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/24 18:11:53 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:10:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@ void	*routine(void *philo_data)
 
 	philo = (t_philo *)philo_data;
 	
+	//  if (philo->philo_id % 2 == 0)
+	 	// ft_usleep(200);
+	
+	// printf("philo %d eat time: %llu\n", philo->philo_id, philo->data->time_eat);
 	while (1)
 	{
 		pthread_mutex_lock(philo->left_fork);
@@ -31,14 +35,14 @@ void	*routine(void *philo_data)
 		
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-
+		//soltao
+		
 		printf("philo %d is sleeping\n", philo->philo_id);
 		ft_usleep(philo->data->time_sleep);
 		
 		printf("philo %d is thinking\n", philo->philo_id);
 	}
 	
-	return (NULL);
 }
 
 int main (int argc, char **argv)
@@ -55,10 +59,16 @@ int main (int argc, char **argv)
 		int i = -1;
 		while (++i < data.nb_philos)
 		{
-			pthread_create(&(data.tid[i]), NULL, &routine, &data.philos[i]);
-			pthread_join(data.tid[i], NULL);
-			//usleep
+			pthread_create(&(data.tid[i]), NULL, routine, &data.philos[i]);
+			//usleep(200);
 		}
+		while(1);
+		// pthread_join(data.tid[i], NULL);
+		// i = -1;
+		// while (++i < data.nb_philos)
+		// {
+		// 	printf("AAAeat time: %llu\n", data.philos[i].data->time_eat);
+		// }
 	}
 	else
 		error_found("Error: invalid number of arguments");
