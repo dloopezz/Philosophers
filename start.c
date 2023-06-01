@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/31 12:48:14 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:41:40 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,15 @@ void	data_init(t_data *data, int argc, char **argv)
 	data->time_die = ft_atoi_philo(argv[2]);
 	data->time_sleep = ft_atoi_philo(argv[3]);
 	data->time_eat = ft_atoi_philo(argv[4]);
+	data->start = get_time();
 	if (argc == 6)
 		data->min_meals = ft_atoi_philo(argv[5]);
 	else
 		data->min_meals = 0;
 		
-	data->is_dead = 0;
-	data->thread_ended = 0;
+	data->philo_died = FALSE;
+	// data->is_dead = 0;
+	// data->thread_ended = 0;
 	//init lock mutex
 }
 

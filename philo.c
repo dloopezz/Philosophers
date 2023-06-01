@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/31 13:10:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:51:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,29 @@
 void	*routine(void *philo_data)
 {
 	t_philo *philo;
-
+ 
 	philo = (t_philo *)philo_data;
-	
 	//  if (philo->philo_id % 2 == 0)
 	 	// ft_usleep(200);
-	
-	// printf("philo %d eat time: %llu\n", philo->philo_id, philo->data->time_eat);
-	while (1)
+	while (philo->data->philo_died == FALSE)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		printf("philo %d has taken his left fork\n", philo->philo_id);
+		printf("%llums philo %d has taken his left fork\n", (get_time() - philo->data->start), philo->philo_id);
 		
 		pthread_mutex_lock(philo->right_fork);
-		printf("philo %d has taken his right fork\n", philo->philo_id);
+		printf("%llums philo %d has taken his right fork\n", (get_time() - philo->data->start), philo->philo_id);
 
-		printf("philo %d is eating\n", philo->philo_id);
+		printf("%llums philo %d is eating\n", (get_time() - philo->data->start), philo->philo_id);
 		ft_usleep(philo->data->time_eat);
 		
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		//soltao
+		//print soltao
 		
-		printf("philo %d is sleeping\n", philo->philo_id);
+		printf("%llums philo %d is sleeping\n", (get_time() - philo->data->start), philo->philo_id);
 		ft_usleep(philo->data->time_sleep);
 		
-		printf("philo %d is thinking\n", philo->philo_id);
+		printf("%llums philo %d is thinking\n", (get_time() - philo->data->start), philo->philo_id);
 	}
 	
 }
@@ -64,11 +61,6 @@ int main (int argc, char **argv)
 		}
 		while(1);
 		// pthread_join(data.tid[i], NULL);
-		// i = -1;
-		// while (++i < data.nb_philos)
-		// {
-		// 	printf("AAAeat time: %llu\n", data.philos[i].data->time_eat);
-		// }
 	}
 	else
 		error_found("Error: invalid number of arguments");
