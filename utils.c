@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/05/31 12:56:27 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/06/05 18:02:42 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@ int	error_found(char *str)
 long long	ft_atoi_philo(const char *str)
 {
 	int			i;
-	int			sign;
 	long long	nb;
 
 	i = 0;
-	sign = 1;
 	nb = 0;
 	if (str[i] == '-')
 		error_found("Error: no negative arguments allowed");
