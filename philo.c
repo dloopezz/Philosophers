@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/05 19:03:48 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/07 17:01:22 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*routine(void *philo_data)
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(200);
 
-	while (((get_time() - philo->last_meal) > philo->data->time_die))
+	while (philo->data->philo_died == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		printf("%llums philo %d has taken his left fork\n", (get_time() - philo->data->start), philo->philo_id);
@@ -45,8 +45,29 @@ void	*routine(void *philo_data)
 
 		printf("%llums philo %d is thinking\n", (get_time() - philo->data->start), philo->philo_id);
 	}
-	printf("%llums philo %d died\n", (get_time() - philo->data->start), philo->philo_id);
 	return (NULL);
+}
+
+int ft_death(t_data *data)
+{
+	int	i;
+
+	while (1)
+	{
+		i = -1;
+		while (++i < data->nb_philos)
+		{
+			if (((get_time() - data->philos[i].last_meal) > data->time_die))
+			{
+				printf("%llums philo %d died\n", (get_time() - data->start), data->philos[i].philo_id);
+				pthread_mutex_lock(&data->lock);
+				data->philo_died = 1;
+				pthread_mutex_unlock(&data->lock);
+				return (0);
+			}
+		}
+	}
+	
 }
 
 int main (int argc, char **argv)
@@ -64,7 +85,9 @@ int main (int argc, char **argv)
 		{
 			pthread_create(&(data.tid[i]), NULL, routine, &data.philos[i]);
 		}
-		while(1);
+		if (!(ft_death(&data)))
+			return (0);
+		
 		// pthread_join(data.tid[i], NULL);
 	}
 	else

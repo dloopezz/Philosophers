@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/05 18:18:04 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/07 16:56:41 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	data_init(t_data *data, int argc, char **argv)
 	data->time_sleep = ft_atoi_philo(argv[3]);
 	data->time_eat = ft_atoi_philo(argv[4]);
 	data->start = get_time();
+	data->philo_died = 0;
 	if (argc == 6)
 		data->min_meals = ft_atoi_philo(argv[5]);
 	else
