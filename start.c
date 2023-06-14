@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/07 16:56:41 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/06/12 17:19:05 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,10 @@ void	data_init(t_data *data, int argc, char **argv)
 	data->time_sleep = ft_atoi_philo(argv[3]);
 	data->time_eat = ft_atoi_philo(argv[4]);
 	data->start = get_time();
-	data->philo_died = 0;
 	if (argc == 6)
 		data->min_meals = ft_atoi_philo(argv[5]);
 	else
 		data->min_meals = 0;
-		
-	data->philo_died = FALSE;
 	// data->is_dead = 0;
 	// data->thread_ended = 0;
 	//init lock mutex
@@ -77,6 +74,7 @@ void	philo_init(t_data *data)
 		data->philos[i].status = 0;
 		data->philos[i].is_eating = 0;
 		data->philos[i].eat_cont = 0;
+		data->philos[i].philo_died = 0;
 		//mutex
 	}
 }
