@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/12 17:19:05 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/14 17:41:01 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	philo_init(t_data *data)
 		data->philos[i].status = 0;
 		data->philos[i].is_eating = 0;
 		data->philos[i].eat_cont = 0;
-		data->philos[i].philo_died = 0;
+		data->philo_died = 0;
 		//mutex
 	}
 }

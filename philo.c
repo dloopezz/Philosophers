@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/14 14:52:32 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/06/14 18:21:15 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	*routine(void *philo_data)
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(200);
 	// pthread_mutex_lock(philo->lock);
-	while (philo->philo_died == 0)
+	// printf("pene: %llu\n", philo->data->time_eat);
+	while (philo->data->philo_died == 0)
 	{
 		// pthread_mutex_unlock(philo->lock);
 		pthread_mutex_lock(philo->left_fork);
@@ -31,7 +32,8 @@ void	*routine(void *philo_data)
 		printf("%llums philo %d has taken his right fork\n", (get_time() - philo->data->start), philo->philo_id);
 
 		printf("%llums philo %d is eating\n", (get_time() - philo->data->start), philo->philo_id);
-		// ft_usleep(philo->data->time_eat); //no tardan en comer
+		ft_usleep(philo->data->time_eat);
+
 		
 		pthread_mutex_lock(philo->data->lock);
 		philo->last_meal = get_time();
@@ -41,11 +43,12 @@ void	*routine(void *philo_data)
 		pthread_mutex_unlock(philo->right_fork);
 		//print soltao
 
-
 		printf("%llums philo %d is sleeping\n", (get_time() - philo->data->start), philo->philo_id);
 		ft_usleep(philo->data->time_sleep);
 
+		// printf("philo_died: %d\n", philo->philo_died);
 		printf("%llums philo %d is thinking\n", (get_time() - philo->data->start), philo->philo_id);
+		
 		// pthread_mutex_lock(philo->lock);
 	}
 	// pthread_mutex_unlock(philo->lock);
@@ -63,12 +66,12 @@ int ft_death(t_data *data)
 		{
 			if (((get_time() - data->philos[i].last_meal) > data->time_die))
 			{
+				printf("ttdie: %llums\n", data->time_die);
+				printf("Action time: %d\n", ((get_time() - data->philos[i].last_meal) > data->time_die));
 				printf("%llums philo %d died\n", (get_time() - data->start), data->philos[i].philo_id);
 				pthread_mutex_lock(data->lock);
-				printf("se crean\n");
-				data->philos[i].philo_died = 1;
+				data->philo_died = 1;
 				pthread_mutex_unlock(data->lock);
-				printf("philo_died: %d\n", data->philos[i].philo_died);
 				return (0);
 			}
 		}
@@ -93,9 +96,9 @@ int main(int argc, char **argv)
 		}
 		if (!(ft_death(&data)))
 		{
-			i = -1;
-			while (++i < data.nb_philos)
-				pthread_join(data.tid[i], NULL);
+			// i = -1;
+			// while (++i < data.nb_philos)
+			// 	pthread_join(data.tid[i], NULL);
 			return (0);
 		}
 		
