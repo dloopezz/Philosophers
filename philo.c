@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/13 19:43:26 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/14 14:52:32 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ void	*routine(void *philo_data)
 		printf("%llums philo %d has taken his right fork\n", (get_time() - philo->data->start), philo->philo_id);
 
 		printf("%llums philo %d is eating\n", (get_time() - philo->data->start), philo->philo_id);
-		ft_usleep(philo->data->time_eat);
+		// ft_usleep(philo->data->time_eat); //no tardan en comer
+		
+		pthread_mutex_lock(philo->data->lock);
+		philo->last_meal = get_time();
+		pthread_mutex_unlock(philo->data->lock);
 
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 		//print soltao
 
-		pthread_mutex_lock(philo->data->lock);
-		philo->last_meal = get_time();
-		pthread_mutex_unlock(philo->data->lock);
 
 		printf("%llums philo %d is sleeping\n", (get_time() - philo->data->start), philo->philo_id);
 		ft_usleep(philo->data->time_sleep);
@@ -64,6 +65,7 @@ int ft_death(t_data *data)
 			{
 				printf("%llums philo %d died\n", (get_time() - data->start), data->philos[i].philo_id);
 				pthread_mutex_lock(data->lock);
+				printf("se crean\n");
 				data->philos[i].philo_died = 1;
 				pthread_mutex_unlock(data->lock);
 				printf("philo_died: %d\n", data->philos[i].philo_died);
