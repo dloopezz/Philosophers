@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/14 18:21:15 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/15 16:22:52 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	*routine(void *philo_data)
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(200);
 	// pthread_mutex_lock(philo->lock);
-	// printf("pene: %llu\n", philo->data->time_eat);
 	while (philo->data->philo_died == 0)
 	{
 		// pthread_mutex_unlock(philo->lock);
@@ -35,27 +34,27 @@ void	*routine(void *philo_data)
 		ft_usleep(philo->data->time_eat);
 
 		
-		pthread_mutex_lock(philo->data->lock);
-		philo->last_meal = get_time();
-		pthread_mutex_unlock(philo->data->lock);
+		pthread_mutex_lock(philo->lock);
+		philo->last_meal = get_time() - philo->data->start;
+		pthread_mutex_unlock(philo->lock);
 
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		//print soltao
+		printf("%llums philo %d finished eating\n", (get_time() - philo->data->start), philo->philo_id);
 
 		printf("%llums philo %d is sleeping\n", (get_time() - philo->data->start), philo->philo_id);
 		ft_usleep(philo->data->time_sleep);
 
-		// printf("philo_died: %d\n", philo->philo_died);
 		printf("%llums philo %d is thinking\n", (get_time() - philo->data->start), philo->philo_id);
 		
+		printf("%llums philo %d no para\n", (get_time() - philo->data->start), philo->philo_id);
 		// pthread_mutex_lock(philo->lock);
 	}
 	// pthread_mutex_unlock(philo->lock);
 	return (NULL);
 }
  
-int ft_death(t_data *data)
+void ft_death(t_data *data)
 {
 	int	i;
 
@@ -64,15 +63,16 @@ int ft_death(t_data *data)
 		i = -1;
 		while (++i < data->nb_philos)
 		{
-			if (((get_time() - data->philos[i].last_meal) > data->time_die))
+			if ((((get_time() - data->start) - data->philos[i].last_meal) > data->time_die))
 			{
-				printf("ttdie: %llums\n", data->time_die);
-				printf("Action time: %d\n", ((get_time() - data->philos[i].last_meal) > data->time_die));
+				// printf("ttdie: %llums\n", data->time_die);
+				// printf("Last meal: %llums\n", data->philos[i].last_meal);
+				
 				printf("%llums philo %d died\n", (get_time() - data->start), data->philos[i].philo_id);
 				pthread_mutex_lock(data->lock);
 				data->philo_died = 1;
 				pthread_mutex_unlock(data->lock);
-				return (0);
+				return ;
 			}
 		}
 	}
@@ -91,18 +91,18 @@ int main(int argc, char **argv)
 		create_forks(&data);
 		i = -1;
 		while (++i < data.nb_philos)
-		{
 			pthread_create(&(data.tid[i]), NULL, routine, &data.philos[i]);
-		}
-		if (!(ft_death(&data)))
-		{
-			// i = -1;
-			// while (++i < data.nb_philos)
-			// 	pthread_join(data.tid[i], NULL);
-			return (0);
-		}
+		ft_death(&data);
 		
-		// pthread_join(data.tid[i], NULL);
+		i = -1;
+		while (++i < data.nb_philos)
+			pthread_join(data.tid[i], NULL);
+		// i = -1;
+		// while (++i < data.nb_philos)
+		// 	pthread_mutex_destroy(data.lock);
+		
+		return (0);
+		
 	}
 	else
 		error_found("Error: invalid number of arguments");

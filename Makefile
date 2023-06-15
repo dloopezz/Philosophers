@@ -1,9 +1,9 @@
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra #-Werror -fsanitize=thread -g
-#DEBUG = -g -fsanitize=address
-THREAD_DEBUG = #-fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
+DEBUG = -g -fsanitize=address
+THREAD_DEBUG = -fsanitize=thread -g
 
 LIB = philo.h
 #SRC_PATH = ./philo/
