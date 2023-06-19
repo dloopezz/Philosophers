@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/15 16:22:52 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/19 20:07:09 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ void	*routine(void *philo_data)
 
 	if (philo->philo_id % 2 == 0)
 		ft_usleep(200);
-	// pthread_mutex_lock(philo->lock);
+	pthread_mutex_lock(philo->plock);
 	while (philo->data->philo_died == 0)
 	{
-		// pthread_mutex_unlock(philo->lock);
+		pthread_mutex_unlock(philo->plock);
+		
 		pthread_mutex_lock(philo->left_fork);
 		printf("%llums philo %d has taken his left fork\n", (get_time() - philo->data->start), philo->philo_id);
 
@@ -48,9 +49,10 @@ void	*routine(void *philo_data)
 		printf("%llums philo %d is thinking\n", (get_time() - philo->data->start), philo->philo_id);
 		
 		printf("%llums philo %d no para\n", (get_time() - philo->data->start), philo->philo_id);
-		// pthread_mutex_lock(philo->lock);
+		
+		pthread_mutex_lock(philo->plock);
 	}
-	// pthread_mutex_unlock(philo->lock);
+	pthread_mutex_unlock(philo->plock);
 	return (NULL);
 }
  
@@ -63,17 +65,20 @@ void ft_death(t_data *data)
 		i = -1;
 		while (++i < data->nb_philos)
 		{
+			pthread_mutex_lock(data->philos[i].lock);
 			if ((((get_time() - data->start) - data->philos[i].last_meal) > data->time_die))
 			{
 				// printf("ttdie: %llums\n", data->time_die);
 				// printf("Last meal: %llums\n", data->philos[i].last_meal);
 				
 				printf("%llums philo %d died\n", (get_time() - data->start), data->philos[i].philo_id);
-				pthread_mutex_lock(data->lock);
+				pthread_mutex_lock(data->plock);
 				data->philo_died = 1;
-				pthread_mutex_unlock(data->lock);
+				pthread_mutex_unlock(data->plock);
+				pthread_mutex_unlock(data->philos[i].left_fork); //AaAAaaAAa
 				return ;
 			}
+			pthread_mutex_unlock(data->philos[i].lock);
 		}
 	}
 }
@@ -87,11 +92,15 @@ int main(int argc, char **argv)
 	{
 		data_init(&data, argc, argv);
 		alloc_memory(&data);
+		// pthread_mutex_lock(data.plock);
 		philo_init(&data);
-		create_forks(&data);
+		// pthread_mutex_unlock(data.plock);
 		i = -1;
+		
+		// pthread_mutex_lock(data.plock);
 		while (++i < data.nb_philos)
 			pthread_create(&(data.tid[i]), NULL, routine, &data.philos[i]);
+		// pthread_mutex_unlock(data.plock);
 		ft_death(&data);
 		
 		i = -1;

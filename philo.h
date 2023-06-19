@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/14 16:57:54 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/19 19:47:51 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ typedef struct s_philo
 	int             eat_cont;
 	int             status;
 	int             is_eating;
+	int             philo_died;
 	long long		last_meal;
 	uint64_t        time_to_die;
 	pthread_mutex_t	*lock;
+	pthread_mutex_t *plock;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 } 				t_philo;
@@ -48,9 +50,9 @@ typedef struct s_data
 	u_int64_t       time_die;
 	u_int64_t       time_eat;
 	u_int64_t       time_sleep;
-	pthread_mutex_t *forks;
 	pthread_mutex_t *lock;
 	pthread_mutex_t *plock;
+	pthread_mutex_t *forks;
 	
 } 				t_data;
 

@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/15 16:31:36 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/19 19:50:23 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ void	alloc_memory(t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->nb_philos);
 	if (!data->philos)
 		error_found("malloc error");
+		
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
 	if (!data->forks)
 		error_found("malloc error");
-
-
 	data->lock = malloc(sizeof(pthread_mutex_t) * data->nb_philos);
 	if (!data->lock)
+		error_found("malloc error");
+	data->plock = malloc(sizeof(pthread_mutex_t));
+	if (!data->plock)
 		error_found("malloc error");
 }
 
@@ -41,13 +43,13 @@ void	data_init(t_data *data, int argc, char **argv)
 	data->time_sleep = ft_atoi_philo(argv[3]);
 	data->time_eat = ft_atoi_philo(argv[4]);
 	data->start = get_time();
+	data->philo_died = 0;
 	if (argc == 6)
 		data->min_meals = ft_atoi_philo(argv[5]);
 	else
 		data->min_meals = 0;
-	// data->is_dead = 0;
-	// data->thread_ended = 0;
 	//init lock mutex
+
 }
 
 void	create_forks(t_data  *data)
@@ -70,6 +72,7 @@ void	philo_init(t_data *data)
 {
 	int i;
 
+	create_forks(data);
 	i = -1;
 	while (++i < data->nb_philos)
 	{
@@ -79,9 +82,11 @@ void	philo_init(t_data *data)
 		data->philos[i].status = 0;
 		data->philos[i].is_eating = 0;
 		data->philos[i].eat_cont = 0;
-		data->philo_died = 0;
+		data->philos[i].philo_died = data->philo_died;   //probar &() en 42
 		//mutexes
-		pthread_mutex_init(&data->lock[i], NULL);
+		pthread_mutex_init(&(data->lock[i]), NULL);
 		data->philos[i].lock = &(data->lock[i]);
+		pthread_mutex_init(&(data->plock[i]), NULL);
+		data->philos[i].plock = data->plock;
 	}
 }
