@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/19 19:47:51 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/22 14:37:23 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ long long	ft_atoi_philo(const char *str);
 int			error_found(char *str);
 uint64_t	get_time(void);
 int 		ft_usleep(unsigned int time);
+void		print_action(char *action, t_philo *philo);
 
 //Initialization
 void	alloc_memory(t_data *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/19 18:23:38 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/23 16:38:06 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ int	error_found(char *str)
 {
 	printf("%s\n", str);
 	exit (EXIT_FAILURE);
+}
+
+void	print_action(char *action, t_philo *philo)
+{
+	//pthread_mutex_lock(philo->plock);
+	if (philo->data->philo_died == 0)
+		printf("%llums philo %d %s\n", (get_time() - philo->data->start), philo->philo_id, action);
+	// pthread_mutex_unlock(philo->plock);
 }
 
 long long	ft_atoi_philo(const char *str)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/19 19:50:23 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/06/22 15:51:44 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,19 @@ void	data_init(t_data *data, int argc, char **argv)
 {
 	data->nb_philos = ft_atoi_philo(argv[1]);		
 	if (data->nb_philos >= 1 && data->nb_philos <= 200)
-		printf("Number of philos: %i\n", data->nb_philos); //cambiar para gestionar errores sin printf
+	{	
+		data->time_die = ft_atoi_philo(argv[2]);
+		data->time_sleep = ft_atoi_philo(argv[3]);
+		data->time_eat = ft_atoi_philo(argv[4]);
+		data->start = get_time();
+		data->philo_died = 0;
+		if (argc == 6)
+			data->min_meals = ft_atoi_philo(argv[5]);
+		else
+			data->min_meals = 0;
+	}
 	else
 		error_found("Error: no negative arguments allowed");
-	data->time_die = ft_atoi_philo(argv[2]);
-	data->time_sleep = ft_atoi_philo(argv[3]);
-	data->time_eat = ft_atoi_philo(argv[4]);
-	data->start = get_time();
-	data->philo_died = 0;
-	if (argc == 6)
-		data->min_meals = ft_atoi_philo(argv[5]);
-	else
-		data->min_meals = 0;
-	//init lock mutex
-
 }
 
 void	create_forks(t_data  *data)
@@ -82,7 +81,7 @@ void	philo_init(t_data *data)
 		data->philos[i].status = 0;
 		data->philos[i].is_eating = 0;
 		data->philos[i].eat_cont = 0;
-		data->philos[i].philo_died = data->philo_died;   //probar &() en 42
+		data->philos[i].philo_died = data->philo_died;
 		//mutexes
 		pthread_mutex_init(&(data->lock[i]), NULL);
 		data->philos[i].lock = &(data->lock[i]);

@@ -1,9 +1,9 @@
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=thread
 DEBUG = -g -fsanitize=address
-THREAD_DEBUG = -fsanitize=thread -g
+THREAD_DEBUG = -g -fsanitize=thread
 
 LIB = philo.h
 #SRC_PATH = ./philo/
@@ -19,7 +19,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@echo "compiling Philosophers..."
-	@$(CC) $(CFLAGS) $(THREAD_DEBUG) $(OBJS) -I $(LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) -I $(LIB) -o $(NAME)
 	@echo "Philosophers compiled!!"
 
 clean:
