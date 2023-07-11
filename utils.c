@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/23 16:38:06 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:19:03 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	error_found(char *str)
 
 void	print_action(char *action, t_philo *philo)
 {
-	//pthread_mutex_lock(philo->plock);
+	pthread_mutex_lock(philo->plock);
 	if (philo->data->philo_died == 0)
 		printf("%llums philo %d %s\n", (get_time() - philo->data->start), philo->philo_id, action);
-	// pthread_mutex_unlock(philo->plock);
+	pthread_mutex_unlock(philo->plock);
 }
 
 long long	ft_atoi_philo(const char *str)
@@ -60,11 +60,11 @@ uint64_t	get_time(void)
 //es un usleep pero recibe milisegundos en vez de microsegundos
 int ft_usleep(unsigned int time)
 {
-	uint64_t	start;
+	uint64_t	ref;
 
-	start = get_time();
-	while ((get_time() - start) < time)
-		usleep(time / 10); 
+	ref = get_time() + time;
+	while (get_time() < ref)
+		usleep(100); 
 	//dividir por 10 por buena praxis, no es bueno bloquear el programa tanto tiempo
 	//mejor hacer ese sleep de time en 10 iteraciones con menos tiempo de espera cada una
 	return (0);

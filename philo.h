@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/06/22 14:37:23 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/11 19:28:26 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,14 @@ typedef struct s_philo
 	struct s_data	*data;
 	// pthread_t       t1;
 	int             philo_id;
+	uint64_t		start;
 	int             eat_cont;
 	int             status;
 	int             is_eating;
 	int             philo_died;
 	long long		last_meal;
+	u_int64_t       time_eat;
+	u_int64_t       time_sleep;
 	uint64_t        time_to_die;
 	pthread_mutex_t	*lock;
 	pthread_mutex_t *plock;
@@ -64,9 +67,11 @@ int 		ft_usleep(unsigned int time);
 void		print_action(char *action, t_philo *philo);
 
 //Initialization
-void	alloc_memory(t_data *data);
+void	alloc_memory(t_data *data, char **argv);
 void	data_init(t_data *data, int argc, char **argv);
-void	philo_init(t_data *data);
+void	philo_init(t_data *data, char **argv);
 void	create_forks(t_data  *data);
+
+void	*routine(void *philo_data);
 
 #endif
