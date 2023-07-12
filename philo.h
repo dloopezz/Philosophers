@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/11 19:28:26 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:38:19 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,11 @@
 typedef struct s_philo
 {
 	struct s_data	*data;
-	// pthread_t       t1;
 	int             philo_id;
-	uint64_t		start;
 	int             eat_cont;
-	int             status;
-	int             is_eating;
 	int             philo_died;
 	long long		last_meal;
+	uint64_t		start;
 	u_int64_t       time_eat;
 	u_int64_t       time_sleep;
 	uint64_t        time_to_die;
@@ -50,13 +47,9 @@ typedef struct s_data
 	int             nb_philos;
 	int             min_meals;
 	uint64_t		start;
-	u_int64_t       time_die;
-	u_int64_t       time_eat;
-	u_int64_t       time_sleep;
 	pthread_mutex_t *lock;
 	pthread_mutex_t *plock;
 	pthread_mutex_t *forks;
-	
 } 				t_data;
 
 //Utils

@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/11 19:29:57 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:20:37 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,11 @@ void	*routine(void *philo_data)
 	pthread_mutex_unlock(philo->plock);
 
 	if (philo->philo_id % 2 == 0)
- 		ft_usleep(200);  //20 o 200?
+ 		ft_usleep(200);
 		
 	pthread_mutex_lock(philo->plock);
 	while (philo->data->philo_died == 0)
 	{
-		// printf("se quedaid%d\n", philo->philo_id);
 		pthread_mutex_unlock(philo->plock);
 
 		pthread_mutex_lock(philo->left_fork);
@@ -45,7 +44,6 @@ void	*routine(void *philo_data)
 
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
-		print_action("finished eating", philo); //quitaaaaar
 
 		print_action("is sleeping", philo);
 		ft_usleep(philo->time_sleep);
@@ -54,10 +52,6 @@ void	*routine(void *philo_data)
 
 		pthread_mutex_lock(philo->plock);
 	}
-	// pthread_mutex_unlock(philo->left_fork);
-	// pthread_mutex_unlock(philo->right_fork);
-	// pthread_mutex_unlock(philo->lock);
-	// printf("id----%d\n", philo->philo_id);
 	pthread_mutex_unlock(philo->plock);
 	return (NULL);
 }
@@ -74,11 +68,9 @@ void ft_death(t_data *data)
 			pthread_mutex_lock(data->philos[i].lock);
 			if ((((get_time() - data->philos[i].start) - data->philos[i].last_meal) > data->philos[i].time_to_die))
 			{
-				// printf("Last meal: %llums\n", data->philos[i].last_meal);
 				print_action("died", &(data->philos[i]));
 				pthread_mutex_lock(data->plock);
 	            data->philo_died = 1;
-				// pthread_mutex_unlock(data->philos[i].left_fork); //AaAAaaAAa
 				pthread_mutex_unlock(data->plock);
 				return ;
 			}
@@ -101,12 +93,6 @@ int main(int argc, char **argv)
 		pthread_mutex_lock(data.plock);
 		philo_init(&data, argv);
 		pthread_mutex_unlock(data.plock);
-		// i = -1;
-		
-		// pthread_mutex_lock(data.plock);
-		// while (++i < data.nb_philos)
-		// 	pthread_create(&(data.tid[i]), NULL, routine, &data.philos[i]);
-		// pthread_mutex_unlock(data.plock);
 		ft_death(&data);
 		
 		i = -1;
@@ -122,16 +108,12 @@ int main(int argc, char **argv)
 		 	pthread_mutex_destroy(&(data.plock[i]));
 		 	pthread_mutex_destroy(&(data.forks[i]));
 		}
-		
-
 		// free(data.philos);
 		// free(data.tid);
 		// free(data.forks);
 		// free(data.lock);
 		// free(data.plock);
-		
 		return (0);
-		
 	}
 	else
 		error_found("Error: invalid number of arguments");

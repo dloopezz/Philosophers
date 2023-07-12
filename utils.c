@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/11 19:19:03 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:44:00 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ uint64_t	get_time(void)
 	struct timeval	cur_time;
 
 	//proteger gettimeofday
-	gettimeofday(&cur_time,  NULL);
-	
-	// printf("Time in sec: %ld\nTime in usec: %d\n", cur_time.tv_sec, cur_time.tv_usec);
+	gettimeofday(&cur_time, NULL);
 	return ((cur_time.tv_sec * (uint64_t)1000) + (cur_time.tv_usec / 1000));
 }
 
@@ -65,7 +63,5 @@ int ft_usleep(unsigned int time)
 	ref = get_time() + time;
 	while (get_time() < ref)
 		usleep(100); 
-	//dividir por 10 por buena praxis, no es bueno bloquear el programa tanto tiempo
-	//mejor hacer ese sleep de time en 10 iteraciones con menos tiempo de espera cada una
 	return (0);
 }
