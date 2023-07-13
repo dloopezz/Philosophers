@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 12:39:36 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:16:14 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ void	alloc_memory(t_data *data, char **argv)
 	data->philo_died = 0;
 }
 
-void	data_init(t_data *data, int argc, char **argv)
-{	
-	if (data->nb_philos >= 1 && data->nb_philos <= 200)
-	{	
-		if (argc == 6)
-			data->min_meals = ft_atoi_philo(argv[5]);
-		else
-			data->min_meals = 0;
-	}
-	else
-		error_found("Error: no negative arguments allowed");
-}
-
 void	create_forks(t_data  *data)
 {
 	int	i;
@@ -63,14 +50,14 @@ void	create_forks(t_data  *data)
 	}
 }
 
-void	philo_init(t_data *data, char **argv)
+void	philo_init(t_data *data, int argc, char **argv)
 {
 	int i;
 
 	i = -1;
 	create_forks(data);
 	while (++i < data->nb_philos)
-	{	
+	{
 		pthread_mutex_init(&(data->lock[i]), NULL);
 		data->philos[i].lock = &(data->lock[i]);
 		pthread_mutex_init(&(data->plock[i]), NULL);
@@ -86,6 +73,11 @@ void	philo_init(t_data *data, char **argv)
 		// count_meals
 		data->philos[i].last_meal = 0;
 		data->philos[i].eat_cont = 0;
+		if (argc == 6)
+			data->philos[i].min_meals = ft_atoi_philo(argv[5]);
+		else if (argc == 5)
+			data->philos[i].min_meals = -1;
+
 		pthread_create(&(data->tid[i]), NULL, routine, &data->philos[i]);
 	}
 }

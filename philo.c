@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 12:20:37 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:41:52 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ void	*routine(void *philo_data)
 		print_action("has taken his right fork", philo);
 
 		print_action("is eating", philo);
+		// if (philo->min_meals != -1)
+		pthread_mutex_lock(philo->lock);
+		philo->eat_cont++;
+		pthread_mutex_unlock(philo->lock);
 		ft_usleep(philo->time_eat);
-
+		
 		pthread_mutex_lock(philo->lock);
 		philo->last_meal = get_time() - philo->start;
 		pthread_mutex_unlock(philo->lock);
@@ -74,10 +78,18 @@ void ft_death(t_data *data)
 				pthread_mutex_unlock(data->plock);
 				return ;
 			}
+
+
+			//count meals
+			if (data->philos[i].min_meals == data->philos[i].eat_cont)
+			{
+				pthread_mutex_lock(data->plock);
+	            data->philo_died = 1;
+				pthread_mutex_unlock(data->plock);
+				return ;
+			}
 			pthread_mutex_unlock(data->philos[i].lock);
 		}
-
-		//while para count_meals
 	}
 }
 
@@ -89,30 +101,32 @@ int main(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		alloc_memory(&data, argv);
-		data_init(&data, argc, argv);
-		pthread_mutex_lock(data.plock);
-		philo_init(&data, argv);
-		pthread_mutex_unlock(data.plock);
-		ft_death(&data);
-		
-		i = -1;
-		while (++i < data.nb_philos)
+		if (data.nb_philos >= 1 && data.nb_philos <= 200)
 		{
-			pthread_mutex_unlock(data.philos[i].lock);
-			pthread_join(data.tid[i], NULL);  
+			pthread_mutex_lock(data.plock);
+			philo_init(&data, argc, argv);
+			pthread_mutex_unlock(data.plock);
+			ft_death(&data);
+			
+			i = -1;
+			while (++i < data.nb_philos)
+			{
+				pthread_mutex_unlock(data.philos[i].lock);
+				pthread_join(data.tid[i], NULL);  
+			}
+			i = -1;
+			while (++i < data.nb_philos)
+			{
+				pthread_mutex_destroy(&(data.lock[i]));
+				pthread_mutex_destroy(&(data.plock[i]));
+				pthread_mutex_destroy(&(data.forks[i]));
+			}
+			// free(data.philos);
+			// free(data.tid);
+			// free(data.forks);
+			// free(data.lock);
+			// free(data.plock);
 		}
-		i = -1;
-		while (++i < data.nb_philos)
-		{
-		 	pthread_mutex_destroy(&(data.lock[i]));
-		 	pthread_mutex_destroy(&(data.plock[i]));
-		 	pthread_mutex_destroy(&(data.forks[i]));
-		}
-		// free(data.philos);
-		// free(data.tid);
-		// free(data.forks);
-		// free(data.lock);
-		// free(data.plock);
 		return (0);
 	}
 	else

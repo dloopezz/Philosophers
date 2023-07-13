@@ -1,7 +1,7 @@
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=thread
 DEBUG = -g -fsanitize=address
 THREAD_DEBUG = -g -fsanitize=thread
 
