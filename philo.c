@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/13 16:21:59 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/14 00:00:03 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,27 +23,32 @@ void	*routine(void *philo_data)
 
 	if (philo->philo_id % 2 == 0)
  		ft_usleep(200);
-		
+
 	pthread_mutex_lock(philo->plock);
-	while (philo->data->end_flag == FALSE)
+	while (*(philo->end_flag) == FALSE)
 	{
 		pthread_mutex_unlock(philo->plock);
-
+ 
 		pthread_mutex_lock(philo->left_fork);
 		print_action("has taken his left fork", philo);
 
 		pthread_mutex_lock(philo->right_fork);
 		print_action("has taken his right fork", philo);
 
-		print_action("is eating", philo);
-		// if (philo->min_meals != -1)
-		pthread_mutex_lock(philo->lock);
-		philo->eat_cont++;
-		pthread_mutex_unlock(philo->lock);
-		ft_usleep(philo->time_eat);
-		
+		// print_action("is eating", philo);
+		// pthread_mutex_lock(philo->lock);
+		// philo->eat_cont++;
+		// pthread_mutex_unlock(philo->lock);
+		// ft_usleep(philo->time_eat);
+		// pthread_mutex_lock(philo->lock);
+		// philo->last_meal = get_time() - philo->start;
+		// pthread_mutex_unlock(philo->lock);
+
 		pthread_mutex_lock(philo->lock);
 		philo->last_meal = get_time() - philo->start;
+		print_action("is eating", philo);
+		if (philo->min_meals != -1)
+			philo->eat_cont++;
 		pthread_mutex_unlock(philo->lock);
 
 		pthread_mutex_unlock(philo->left_fork);
@@ -76,6 +81,7 @@ void ft_death(t_data *data)
 				pthread_mutex_lock(data->plock);
 	            data->end_flag = TRUE;
 				pthread_mutex_unlock(data->plock);
+				pthread_mutex_unlock(data->philos[i].left_fork);
 				return ;
 			}
 
@@ -91,11 +97,17 @@ void ft_death(t_data *data)
 					pthread_mutex_unlock(data->plock);
 					return ;
 				}
+				// pthread_mutex_unlock(data->plock);
 			}
 			pthread_mutex_unlock(data->philos[i].lock);
 		}
 	}
 }
+
+// void ft_leaks()
+// {
+// 	system("leaks philo");
+// }
 
 int main(int argc, char **argv)
 {
@@ -104,6 +116,7 @@ int main(int argc, char **argv)
 
 	if (argc == 5 || argc == 6)
 	{
+		// atexit(ft_leaks);
 		alloc_memory(&data, argv);
 		if (data.nb_philos >= 1 && data.nb_philos <= 200)
 		{
@@ -122,8 +135,8 @@ int main(int argc, char **argv)
 			while (++i < data.nb_philos)
 			{
 				pthread_mutex_destroy(&(data.lock[i]));
-				pthread_mutex_destroy(&(data.plock[i]));
 				pthread_mutex_destroy(&(data.forks[i]));
+				pthread_mutex_destroy(&(data.plock[i]));
 			}
 			// free(data.philos);
 			// free(data.tid);

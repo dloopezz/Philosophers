@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/13 16:24:01 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/13 23:46:19 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	create_forks(t_data  *data)
 	data->philos[i].right_fork = &data->forks[data->nb_philos - 1];
 	while (++i <= data->nb_philos)
 	{
-		pthread_mutex_init(&data->forks[i], NULL);
 		data->philos[i].left_fork = &data->forks[i];
 		data->philos[i].right_fork = &data->forks[i - 1];
 	}
@@ -67,11 +66,11 @@ void	philo_init(t_data *data, int argc, char **argv)
 		data->philos[i].data = data;
 		data->philos[i].philo_id = i + 1;
 		data->philos[i].start = data->start;
-		data->philos[i].end_flag = data->end_flag;
+		data->philos[i].end_flag = &(data->end_flag);
 		data->philos[i].time_to_die = ft_atoi_philo(argv[2]);
 		data->philos[i].time_sleep = ft_atoi_philo(argv[3]);
 		data->philos[i].time_eat = ft_atoi_philo(argv[4]);
-		// count_meals
+
 		data->philos[i].last_meal = 0;
 		data->philos[i].eat_cont = 0;
 		data->philos[i].is_fat = FALSE;
