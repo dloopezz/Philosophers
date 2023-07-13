@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 16:41:52 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:21:59 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*routine(void *philo_data)
  		ft_usleep(200);
 		
 	pthread_mutex_lock(philo->plock);
-	while (philo->data->philo_died == 0)
+	while (philo->data->end_flag == FALSE)
 	{
 		pthread_mutex_unlock(philo->plock);
 
@@ -74,19 +74,23 @@ void ft_death(t_data *data)
 			{
 				print_action("died", &(data->philos[i]));
 				pthread_mutex_lock(data->plock);
-	            data->philo_died = 1;
+	            data->end_flag = TRUE;
 				pthread_mutex_unlock(data->plock);
 				return ;
 			}
 
-
-			//count meals
-			if (data->philos[i].min_meals == data->philos[i].eat_cont)
+			if (data->philos[i].min_meals == data->philos[i].eat_cont && data->philos[i].is_fat == FALSE)
 			{
-				pthread_mutex_lock(data->plock);
-	            data->philo_died = 1;
-				pthread_mutex_unlock(data->plock);
-				return ;
+				data->philos[i].is_fat = TRUE;
+				data->nb_fat++;
+				
+				if (data->nb_fat == data->nb_philos)
+				{
+					pthread_mutex_lock(data->plock);
+					data->end_flag = TRUE;
+					pthread_mutex_unlock(data->plock);
+					return ;
+				}
 			}
 			pthread_mutex_unlock(data->philos[i].lock);
 		}
@@ -133,3 +137,4 @@ int main(int argc, char **argv)
 		error_found("Error: invalid number of arguments");
 	return (0);
 }
+

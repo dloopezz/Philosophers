@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 16:16:14 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:24:01 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	alloc_memory(t_data *data, char **argv)
 {
-	data->nb_philos = ft_atoi_philo(argv[1]);		
 	data->tid = malloc(sizeof(pthread_t) * data->nb_philos);
 	if (!data->tid)
 		error_found("malloc error");
@@ -30,8 +29,10 @@ void	alloc_memory(t_data *data, char **argv)
 	data->plock = malloc(sizeof(pthread_mutex_t) * 1);
 	if (!data->plock)
 		error_found("malloc error");
+	data->nb_philos = ft_atoi_philo(argv[1]);		
+	data->nb_fat = 0;
 	data->start = get_time();
-	data->philo_died = 0;
+	data->end_flag = FALSE;
 }
 
 void	create_forks(t_data  *data)
@@ -66,13 +67,14 @@ void	philo_init(t_data *data, int argc, char **argv)
 		data->philos[i].data = data;
 		data->philos[i].philo_id = i + 1;
 		data->philos[i].start = data->start;
-		data->philos[i].philo_died = data->philo_died;
+		data->philos[i].end_flag = data->end_flag;
 		data->philos[i].time_to_die = ft_atoi_philo(argv[2]);
 		data->philos[i].time_sleep = ft_atoi_philo(argv[3]);
 		data->philos[i].time_eat = ft_atoi_philo(argv[4]);
 		// count_meals
 		data->philos[i].last_meal = 0;
 		data->philos[i].eat_cont = 0;
+		data->philos[i].is_fat = FALSE;
 		if (argc == 6)
 			data->philos[i].min_meals = ft_atoi_philo(argv[5]);
 		else if (argc == 5)

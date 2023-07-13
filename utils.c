@@ -6,7 +6,7 @@
 /*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 12:44:00 by dlopez-s         ###   ########.fr       */
+/*   Updated: 2023/07/13 15:37:20 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	error_found(char *str)
 void	print_action(char *action, t_philo *philo)
 {
 	pthread_mutex_lock(philo->plock);
-	if (philo->data->philo_died == 0)
+	if (philo->data->end_flag == FALSE)
 		printf("%llums philo %d %s\n", (get_time() - philo->data->start), philo->philo_id, action);
 	pthread_mutex_unlock(philo->plock);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/12 14:58:51 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:21:02 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ typedef struct s_philo
 	int             philo_id;
 	int             eat_cont; //uuaaa
 	int             min_meals; //uuaaa
-	int             philo_died;
+	int            	is_fat; //uuaaa
+	int             end_flag;
 	long long		last_meal;
 	uint64_t		start;
 	u_int64_t       time_eat;
@@ -44,7 +45,8 @@ typedef struct s_data
 {
 	t_philo         *philos;
 	pthread_t       *tid;
-	int             philo_died;
+	int            	nb_fat; //uuaaa
+	int             end_flag;
 	int             nb_philos;
 	uint64_t		start;
 	pthread_mutex_t *lock;
