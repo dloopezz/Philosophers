@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 16:02:58 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/13 23:46:47 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/14 00:17:53 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ typedef struct s_data
 long long	ft_atoi_philo(const char *str);
 int			error_found(char *str);
 uint64_t	get_time(void);
-int 		ft_usleep(unsigned int time);
+// int 		ft_usleep(unsigned int time);
+void 		ft_usleep(unsigned int time);
 void		print_action(char *action, t_philo *philo);
 
 //Initialization
 void	alloc_memory(t_data *data, char **argv);
-void	data_init(t_data *data, int argc, char **argv);
 void	philo_init(t_data *data, int argc, char **argv);
 void	create_forks(t_data  *data);
 

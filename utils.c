@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:52:17 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/13 22:12:38 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/14 00:09:49 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,26 @@ uint64_t	get_time(void)
 }
 
 //es un usleep pero recibe milisegundos en vez de microsegundos
-int ft_usleep(unsigned int time)
-{
-	uint64_t	ref;
+// int fzp(unsigned int time)
+// {
+// 	uint64_t	ref;
 
-	ref = get_time() + time;
-	while (get_time() < ref)
-		usleep(100); 
-	return (0);
+// 	ref = get_time() + time;
+// 	while (get_time() < ref)
+// 		usleep(100); 
+// 	return (0);
+// }
+
+void ft_usleep(unsigned int time)
+{
+	long long	star_time;
+	long long	act_time;
+
+	star_time = get_time();
+	act_time = star_time;
+	while (star_time >= (act_time - time))
+	{
+		act_time = get_time();
+		usleep(100);
+	}
 }

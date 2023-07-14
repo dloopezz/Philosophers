@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/14 00:00:03 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/14 12:00:03 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	*routine(void *philo_data)
 		if (philo->min_meals != -1)
 			philo->eat_cont++;
 		pthread_mutex_unlock(philo->lock);
+		ft_usleep(philo->time_eat); //uauauau
 
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
@@ -109,10 +110,28 @@ void ft_death(t_data *data)
 // 	system("leaks philo");
 // }
 
+void ft_atomaporculo(t_data *data)
+{
+	int i;
+	
+	i = -1;
+	while (++i < data->nb_philos)
+	{
+		pthread_mutex_unlock(data->philos[i].lock);
+		pthread_join(data->tid[i], NULL);  
+	}
+	i = -1;
+	while (++i < data->nb_philos)
+	{
+		pthread_mutex_destroy(&(data->lock[i]));
+		pthread_mutex_destroy(&(data->forks[i]));
+		pthread_mutex_destroy(&(data->plock[i]));
+	}
+}
+
 int main(int argc, char **argv)
 {
 	t_data	data;
-	int		i;
 
 	if (argc == 5 || argc == 6)
 	{
@@ -124,20 +143,8 @@ int main(int argc, char **argv)
 			philo_init(&data, argc, argv);
 			pthread_mutex_unlock(data.plock);
 			ft_death(&data);
+			ft_atomaporculo(&data);
 			
-			i = -1;
-			while (++i < data.nb_philos)
-			{
-				pthread_mutex_unlock(data.philos[i].lock);
-				pthread_join(data.tid[i], NULL);  
-			}
-			i = -1;
-			while (++i < data.nb_philos)
-			{
-				pthread_mutex_destroy(&(data.lock[i]));
-				pthread_mutex_destroy(&(data.forks[i]));
-				pthread_mutex_destroy(&(data.plock[i]));
-			}
 			// free(data.philos);
 			// free(data.tid);
 			// free(data.forks);

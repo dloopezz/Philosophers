@@ -6,7 +6,7 @@
 /*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 15:00:23 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/13 23:46:19 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/14 12:03:37 by lopezz           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void	philo_init(t_data *data, int argc, char **argv)
 		data->philos[i].start = data->start;
 		data->philos[i].end_flag = &(data->end_flag);
 		data->philos[i].time_to_die = ft_atoi_philo(argv[2]);
-		data->philos[i].time_sleep = ft_atoi_philo(argv[3]);
-		data->philos[i].time_eat = ft_atoi_philo(argv[4]);
+		data->philos[i].time_eat = ft_atoi_philo(argv[3]);
+		data->philos[i].time_sleep = ft_atoi_philo(argv[4]);
 
 		data->philos[i].last_meal = 0;
 		data->philos[i].eat_cont = 0;
