@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lopezz <lopezz@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dlopez-s <dlopez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/18 12:33:36 by dlopez-s          #+#    #+#             */
-/*   Updated: 2023/07/14 12:00:03 by lopezz           ###   ########.fr       */
+/*   Updated: 2023/07/14 17:31:47 by dlopez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*routine(void *philo_data)
 
 	pthread_mutex_lock(philo->plock);
 	pthread_mutex_unlock(philo->plock);
-
+	
 	if (philo->philo_id % 2 == 0)
  		ft_usleep(200);
 
@@ -29,11 +29,11 @@ void	*routine(void *philo_data)
 	{
 		pthread_mutex_unlock(philo->plock);
  
-		pthread_mutex_lock(philo->left_fork);
-		print_action("has taken his left fork", philo);
-
 		pthread_mutex_lock(philo->right_fork);
 		print_action("has taken his right fork", philo);
+		
+		pthread_mutex_lock(philo->left_fork);
+		print_action("has taken his left fork", philo);
 
 		// print_action("is eating", philo);
 		// pthread_mutex_lock(philo->lock);
